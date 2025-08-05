@@ -67,18 +67,6 @@ if ! command -v go &> /dev/null; then
     exit 1
 fi
 
-# Set Go environment if not set
-if [ -z "$GOPATH" ]; then
-    export GOPATH=$HOME/go
-    export PATH=$PATH:$GOPATH/bin
-    echo 'export GOPATH=$HOME/go' >> ~/.bashrc
-    echo 'export PATH=$PATH:$GOPATH/bin' >> ~/.bashrc
-    print_status "Go environment configured"
-fi
-
-# Create Go directories
-mkdir -p $GOPATH/bin
-mkdir -p $GOPATH/src
 
 echo ""
 print_status "Installing reconnaissance tools..."
@@ -107,7 +95,7 @@ print_status "Installing Subfinder..."
 if command -v subfinder &> /dev/null; then
     print_success "Subfinder already installed"
 else
-    go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
+    go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@v2.8.0
     print_success "Subfinder installed"
 fi
 
@@ -125,7 +113,7 @@ print_status "Installing Nuclei..."
 if command -v nuclei &> /dev/null; then
     print_success "Nuclei already installed"
 else
-    go install -v github.com/projectdiscovery/nuclei/v2/cmd/nuclei@latest
+    go install -v github.com/projectdiscovery/nuclei/v2/cmd/nuclei@v3.4.7
     print_success "Nuclei installed"
 fi
 
@@ -134,7 +122,7 @@ print_status "Installing ffuf..."
 if command -v ffuf &> /dev/null; then
     print_success "ffuf already installed"
 else
-    go install github.com/ffuf/ffuf@latest
+    go install github.com/ffuf/ffuf@v2.1.0
     print_success "ffuf installed"
 fi
 
@@ -249,7 +237,7 @@ if [ ${#MISSING_TOOLS[@]} -eq 0 ] && [ "$WORDLIST_FOUND" = true ]; then
     print_success "🎉 All tools and wordlists installed successfully!"
     echo ""
     print_status "You may need to restart your terminal or run:"
-    echo -e "${YELLOW}source ~/.bashrc${NC}"
+    echo -e "${YELLOW}source ~/.zshrc${NC}"
     echo ""
     print_status "Your enhanced recon script is ready to use!"
 elif [ ${#MISSING_TOOLS[@]} -gt 0 ]; then
